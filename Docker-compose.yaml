@@ -1,0 +1,35 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    #étape 2 : coupler le conteneur de l'appli avec un conteneur pour la bdd       
+    depends_on: #permet de spécifier que le service suivant doit être démarré avant le service web
+     - db
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: trustNo1
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports: 
+      - "3306:3306"
+  
+  phpmyadmin:
+    image: phpmyadmin
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+
+volumes:
+  dbdata:
