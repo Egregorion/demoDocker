@@ -8,6 +8,7 @@ services:
     #étape 2 : coupler le conteneur de l'appli avec un conteneur pour la bdd       
     depends_on: #permet de spécifier que le service suivant doit être démarré avant le service web
      - db
+
   db:
     image: mysql
     restart: always
